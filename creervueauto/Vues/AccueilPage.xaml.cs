@@ -44,6 +44,8 @@ public partial class AccueilPage : ContentPage
         Attributs newAttribute = new Attributs(attributeName, false, typologie); // false pour clePrimaire, ajustez selon vos besoins
         newTable.LesAttributs.Add(newAttribute);
 
+        AttributeNameEntry.Text = "";
+        TypologyPicker.SelectedIndex = 0;
         // Affichez un message ou mettez à jour l'UI ici si nécessaire
     }
 }
