@@ -16,6 +16,9 @@
             </Picker.ItemsSource>
         </Picker>
         <Button x:Name="AddAttributeButton" Text="Ajouter Attribut" Clicked="AddAttributeButton_Clicked"/>
+        
+        <Editor x:Name="GeneratedViewEditor" IsReadOnly="True" HeightRequest="100" />
+        <Button x:Name="AddCreatViewTable" Text="Creer la vue de la table" Clicked="AddCreatViewTable_Clicked"/>
 
     </VerticalStackLayout>
 </ContentPage>

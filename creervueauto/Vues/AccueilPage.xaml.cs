@@ -1,5 +1,6 @@
 using creervueauto.Modeles;
 using System.Collections.ObjectModel;
+using System.Text;
 
 namespace creervueauto.Vues;
 
@@ -48,4 +49,49 @@ public partial class AccueilPage : ContentPage
         TypologyPicker.SelectedIndex = 0;
         // Affichez un message ou mettez à jour l'UI ici si nécessaire
     }
+
+
+    private void AddCreatViewTable_Clicked(object sender, EventArgs e)
+    {
+        if (newTable == null || newTable.LesAttributs.Count == 0)
+        {
+            DisplayAlert("Erreur", "Veuillez d'abord créer une table et ajouter des attributs.", "OK");
+            return;
+        }
+
+        string viewName = "View_" + Guid.NewGuid().ToString("N"); // Nom aléatoire pour la vue
+        StringBuilder viewColumns = new StringBuilder();
+        StringBuilder selectColumns = new StringBuilder();
+
+        foreach (var attribut in newTable.LesAttributs)
+        {
+            string decalAttribut = DecalerLettres(attribut.Nom);
+            viewColumns.Append($"{decalAttribut}, ");
+            selectColumns.Append($"{attribut.Nom}, ");
+        }
+
+        // Retirer la dernière virgule et espace de chaque StringBuilder
+        viewColumns.Length -= 2;
+        selectColumns.Length -= 2;
+
+        // Combiner les parties pour former la requête complète
+        string createViewQuery = $"CREATE VIEW {viewName} ({viewColumns}) AS SELECT {selectColumns} FROM {newTable.Nom}";
+
+        GeneratedViewEditor.Text = createViewQuery;
+    }
+
+
+
+    private string DecalerLettres(string input)
+    {
+        return new string(input.Select(c =>
+        {
+            if (!char.IsLetter(c)) return c; // Garde les caractères non alphabétiques tels quels
+            char offset = char.IsUpper(c) ? 'A' : 'a';
+            return (char)(((c + 1 - offset) % 26) + offset);
+        }).ToArray());
+    }
+
 }
+
+
