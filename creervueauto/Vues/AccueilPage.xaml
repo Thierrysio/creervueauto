@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="creervueauto.Vues.AccueilPage"
+             Title="AccueilPage">
+    <VerticalStackLayout>
+        <Entry x:Name="TableNameEntry" Placeholder="Nom de la table" />
+        <Button x:Name="CreateTableButton" Text="Créer la table" Clicked="CreateTableButton_Clicked"/>
+
+        <Label Text="Attributs de la table" />
+        <Entry x:Name="AttributeNameEntry" Placeholder="Nom de l'attribut" />
+        <Picker x:Name="TypologyPicker">
+            <Picker.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                </x:Array>
+            </Picker.ItemsSource>
+        </Picker>
+        <Button x:Name="AddAttributeButton" Text="Ajouter Attribut" Clicked="AddAttributeButton_Clicked"/>
+
+    </VerticalStackLayout>
+</ContentPage>
