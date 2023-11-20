@@ -7,6 +7,7 @@ namespace creervueauto.Vues;
 public partial class AccueilPage : ContentPage
 {
     Table newTable = null;
+    string viewName = null;
     public AccueilPage()
     {
         InitializeComponent();
@@ -59,7 +60,7 @@ public partial class AccueilPage : ContentPage
             return;
         }
 
-        string viewName = "View_" + Guid.NewGuid().ToString("N"); // Nom aléatoire pour la vue
+        viewName = "View_" + Guid.NewGuid().ToString("N"); // Nom aléatoire pour la vue
         StringBuilder viewColumns = new StringBuilder();
         StringBuilder selectColumns = new StringBuilder();
 
@@ -91,6 +92,30 @@ public partial class AccueilPage : ContentPage
             return (char)(((c + 1 - offset) % 26) + offset);
         }).ToArray());
     }
+
+    private void GenerateModifiedQueryButton_Clicked(object sender, EventArgs e)
+    {
+        if (newTable == null || newTable.LesAttributs.Count == 0 || string.IsNullOrEmpty(viewName))
+        {
+            DisplayAlert("Erreur", "Veuillez d'abord créer la vue de la table.", "OK");
+            return;
+        }
+
+        StringBuilder selectQuery = new StringBuilder($"SELECT ");
+
+        foreach (var attribut in newTable.LesAttributs)
+        {
+            string decalAttribut = DecalerLettres(attribut.Nom);
+            selectQuery.Append($"{decalAttribut}, ");
+        }
+
+        // Retirer la dernière virgule et espace
+        selectQuery.Length -= 2;
+        selectQuery.Append($" FROM {viewName}");
+
+        ModifiedQueryEditor.Text = selectQuery.ToString();
+    }
+
 
 }
 
